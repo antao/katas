@@ -1,4 +1,6 @@
-﻿namespace StringCalculator
+﻿using System.Linq;
+
+namespace StringCalculator
 {
     public sealed class Calculator
     {
@@ -11,12 +13,7 @@
 
             var array = numbers.Split(',');
             
-            if (array.Length is 1)
-            {
-                return int.Parse(array[0]);
-            }
-
-            return int.Parse(array[0]) + int.Parse(array[1]);
+            return array.Length is 1 ? int.Parse(array[0]) : array.Sum(int.Parse);
         }
     }
 }
