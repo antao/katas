@@ -1,3 +1,4 @@
+using System.Text;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Xunit;
@@ -49,6 +50,31 @@ namespace StringCalculator.UnitTests
             // Arrange
             var expected = number1 + number2;
             var numbers = $"{number1},{number2}";
+
+            // Act
+            var actual = _target.Add(numbers);
+
+            // Assert
+            actual.Should().Be(expected);
+        }
+
+        [Theory, AutoData]
+        public void Add_Should_Return_Sum_N(int n)
+        {
+            // Arrange
+            StringBuilder stringBuilder = new StringBuilder();
+            int expected = 0;
+            for (int i = 1; i <= n; i++)
+            {
+                expected += i;
+                stringBuilder.Append(i);
+                if (n != i)
+                {
+                    stringBuilder.Append(',');
+                }
+            }
+
+            var numbers = stringBuilder.ToString();
 
             // Act
             var actual = _target.Add(numbers);
