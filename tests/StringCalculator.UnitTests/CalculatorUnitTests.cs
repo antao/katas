@@ -15,9 +15,14 @@ namespace StringCalculator.UnitTests
         [Theory]
         [InlineData("", 0)]
         [InlineData("1", 1)]
+        [InlineData("1, 2", 3)]
         [InlineData("1, 2, 3", 6)]
         [InlineData("1\n2, 3", 6)]
-        public void Add_Should_Return_Correct_Sum_When_Numbers_Is_Valid(string expectedNumbers, int expected)
+        [InlineData("//;\n", 0)]
+        [InlineData("//;\n1;2", 3)]
+        [InlineData("//$\n40$2", 42)]
+        [InlineData("//*\n40*2", 42)]
+        public void Add_Should_Return_Correct_Sum_When_Numbers_And_Delimiters_Are_Valid(string expectedNumbers, int expected)
         {
             // Arrange
             // Act
@@ -26,5 +31,5 @@ namespace StringCalculator.UnitTests
             // Assert
             actual.Should().Be(expected);
         }
-    }
+	}
 }
