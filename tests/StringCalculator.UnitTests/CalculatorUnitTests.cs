@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using Xunit;
 
@@ -31,5 +32,21 @@ namespace StringCalculator.UnitTests
             // Assert
             actual.Should().Be(expected);
         }
-	}
+
+        [Theory]
+        [InlineData("1,-2", "negatives not allowed: -2 (Parameter 'numbers')")]
+        [InlineData("1, -2, -3", "negatives not allowed: -2,-3 (Parameter 'numbers')")]
+        [InlineData("-1, -2, -3", "negatives not allowed: -1,-2,-3 (Parameter 'numbers')")]
+        [InlineData("-1\n2,3", "negatives not allowed: -1 (Parameter 'numbers')")]
+        [InlineData("//$\n-40$2", "negatives not allowed: -40 (Parameter 'numbers')")]
+        public void Add_Should_Throw_ArgumentOutOfRangeException_When_Numbers_Contains_Negative_Numbers(string expectedNumbers, string expectedMessage)
+        {
+            // Arrange
+            // Act
+            var actual = Assert.Throws<ArgumentOutOfRangeException>(() => _target.Add(expectedNumbers));
+
+            // Assert
+            actual.Message.Should().Be(expectedMessage);
+        }
+    }
 }

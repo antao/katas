@@ -16,8 +16,16 @@ namespace StringCalculator
                 delimiters.Add(lines[0][2..]);
             }
 
+            if (numbers == string.Empty) return 0;
+
             var array = numbers.Split(delimiters.ToArray(), StringSplitOptions.None);
-            return array.First() == string.Empty ? 0 : array.Sum(int.Parse);
+            var negatives = array.Select(int.Parse).Where(w => w < 0);
+            if (negatives.Any())
+            {
+                throw new ArgumentOutOfRangeException(nameof(numbers), $"negatives not allowed: {string.Join(",", negatives)}");
+            }
+
+            return array.Sum(int.Parse);
         }
     }
 }
