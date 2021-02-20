@@ -23,6 +23,8 @@ namespace StringCalculator.UnitTests
         [InlineData("//;\n1;2", 3)]
         [InlineData("//$\n40$2", 42)]
         [InlineData("//*\n40*2", 42)]
+        [InlineData("2, 1001", 2)]
+        [InlineData("//[***]\n1***2***3", 6)]
         public void Add_Should_Return_Correct_Sum_When_Numbers_And_Delimiters_Are_Valid(string expectedNumbers, int expected)
         {
             // Arrange

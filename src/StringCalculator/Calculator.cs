@@ -8,24 +8,25 @@ namespace StringCalculator
     {
         public int Add(string numbers)
         {
+            if (numbers == string.Empty) return 0;
+
             var delimiters = new List<string> { ",", "\n" };
 			if (numbers.StartsWith("//"))
 			{
 				var lines = numbers.Split('\n');
                 numbers = lines[1];
-                delimiters.Add(lines[0][2..]);
+                delimiters.Add(lines[0][2..].Replace("[", string.Empty).Replace("]", string.Empty));
             }
 
-            if (numbers == string.Empty) return 0;
-
             var array = numbers.Split(delimiters.ToArray(), StringSplitOptions.None);
-            var negatives = array.Select(int.Parse).Where(w => w < 0);
+            var integers = array.Select(int.Parse).Where(w => w <= 1000);
+            var negatives = integers.Where(w => w < 0);
             if (negatives.Any())
             {
                 throw new ArgumentOutOfRangeException(nameof(numbers), $"negatives not allowed: {string.Join(",", negatives)}");
             }
 
-            return array.Sum(int.Parse);
+            return integers.Sum();
         }
     }
 }
